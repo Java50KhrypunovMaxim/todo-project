@@ -45,7 +45,7 @@
                   <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
                 </form>
               {% else %}
-                <form action="{% url 'todo:toggle_task_status' pk=task.id %}" method="post" style="display: inline;">
+                <form action="{% url 'todo:delete_task' pk=task.id %}" method="post" style="display: inline;">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-warning btn-sm">Undo</button>
                 </form>
@@ -59,4 +59,6 @@
     <p>There are no tasks available.</p>
   {% endif %}
 {% endblock %}
+
+
 
