@@ -26,17 +26,19 @@
 
   {% if user.is_authenticated %}
     {% if user in task.assigned_users.all %}
-      <form method="post" action="{% url 'todo:remove-task-user' pk=task.pk %}">
+      <form method="post" action="{% url 'todo:remove_task_user' pk=task.pk %}">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Remove me from this task</button>
       </form>
     {% else %}
-      <form method="post" action="{% url 'todo:add-task-user' pk=task.pk %}">
+      <form method="post" action="{% url 'todo:add_task_user' pk=task.pk %}">
         {% csrf_token %}
         <button type="submit" class="btn btn-success">Assign me to this task</button>
       </form>
     {% endif %}
+    
+    <a href="{% url 'todo:delete_task' pk=task.pk %}" class="btn btn-danger">Delete Task</a>
   {% endif %}
 
-  <a href="{% url 'todo:task-list' %}" class="btn btn-secondary">Back to Task List</a>
+  <a href="{% url 'todo:task_list' %}" class="btn btn-secondary">Back to Task List</a>
 {% endblock %}

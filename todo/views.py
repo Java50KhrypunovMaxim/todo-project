@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy
 from django.views import generic
-
 from .forms import TaskForm, TagForm
 from .models import Task, Tag
 
@@ -75,13 +74,13 @@ class TagCreateView(LoginRequiredMixin, generic.CreateView):
     model = Tag
     form_class = TagForm
     template_name = 'todo/add-tag.html'
-    success_url = reverse_lazy('tag_list')
+    success_url = reverse_lazy('todo:tag_list')
 
 
 class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     template_name = 'todo/tag_confirm_delete.html'
-    success_url = reverse_lazy('tag_list')
+    success_url = reverse_lazy('todo:tag_list')
 
 class TagDetailView(LoginRequiredMixin, generic.DetailView):
     model = Tag
