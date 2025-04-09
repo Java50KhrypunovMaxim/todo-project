@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block title %}<title>Task Planner</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-kit/3.0.3/css/material-kit.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Верхний баннер с названием */
+        .header-banner {
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Фиксированный footer на низ */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar {
+            background: rgba(0, 123, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            color: #333;
+        }
+
+        .container {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Верхний баннер -->
+    <div class="header-banner">
+        Task Planner - Your task management solution
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {% block sidebar %}
+                            {% include "includes/sidebar.html" %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                {% block pagination %}
+                    {% include "includes/pagination.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p class="mb-0">&copy; 2025 Task Planner. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-kit/3.0.3/js/material-kit.min.js"></script>
+</body>
+
+</html>

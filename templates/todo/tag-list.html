@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Tag List
+    <a href="{% url 'add_tag' %}" class="btn btn-primary">Create New Tag</a>
+  </h1>
+
+  {% if tags %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tag Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tag in tags %}
+          <tr>
+            <td>{{ tag.name }}</td>
+            <td>
+              <a href="{% url 'update_tag' tag.id %}" class="btn btn-sm btn-secondary">Edit</a>
+              <a href="{% url 'delete_tag' tag.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No tags available</p>
+  {% endif %}
+{% endblock %}

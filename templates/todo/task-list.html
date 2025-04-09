@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Task List
+    <a href="{% url 'add_task' %}" class="btn btn-primary">Create New Task</a>
+  </h1>
+
+  {% if tasks %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th>Tags</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>
+              <a href="{% url 'update_task' task.id %}">{{ task.content }}</a>
+            </td>
+            <td>{{ task.deadline|date:"d-m-Y" }}</td>
+            <td>
+              {% if task.is_done %}
+                <span class="badge bg-success">Completed</span>
+              {% else %}
+                <span class="badge bg-warning">Pending</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if task.tags.all %}
+                <ul class="list-unstyled">
+                  {% for tag in task.tags.all %}
+                    <li>{{ tag.name }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <span class="text-muted">No tags</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'update_task' task.id %}" class="btn btn-sm btn-secondary">Edit</a>
+              <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">Delete</a>
+              {% if task.is_done %}
+                <a href="{% url 'toggle_task_status' task.id %}" class="btn btn-sm btn-warning">Undo</a>
+              {% else %}
+                <a href="{% url 'toggle_task_status' task.id %}" class="btn btn-sm btn-success">Complete</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No tasks available</p>
+  {% endif %}
+{% endblock %}

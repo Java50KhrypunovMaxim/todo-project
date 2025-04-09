@@ -1,0 +1,16 @@
+<{% extends "base.html" %}
+
+{% block content %}
+    <h1>Tasks Home</h1>
+    <p>Welcome to the TODO-LIST!</p>
+
+    <h2>Dynamic Content</h2>
+    <p>The system has the following record counts:</p>
+    <ul>
+        <li><strong>Tasks:</strong> {{ num_tasks }}</li>
+        <li><strong>Tags:</strong> {{ num_tags}}</li>
+    </ul>
+
+    <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+
+{% endblock %}
