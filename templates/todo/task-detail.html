@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ task.content }}</h1>
+
+  {% if task.deadline %}
+    <p><strong>Deadline:</strong> {{ task.deadline|date:"d/m/Y" }}</p>
+  {% else %}
+    <p><strong>Deadline:</strong> Not set</p>
+  {% endif %}
+
+  <p><strong>Status:</strong> 
+    {% if task.is_done %}
+      Done
+    {% else %}
+      Pending
+    {% endif %}
+  </p>
+
+  <h3>Tags:</h3>
+  <ul>
+    {% for tag in task.tags.all %}
+      <li>{{ tag.name }}</li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+    {% if user in task.assigned_users.all %}
+      <form method="post" action="{% url 'todo:remove_task_user' pk=task.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remove me from this task</button>
+      </form>
+    {% else %}
+      <form method="post" action="{% url 'todo:add_task_user' pk=task.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Assign me to this task</button>
+      </form>
+    {% endif %}
+    
+    <a href="{% url 'todo:delete_task' pk=task.pk %}" class="btn btn-danger">Delete Task</a>
+  {% endif %}
+
+  <a href="{% url 'todo:task_list' %}" class="btn btn-secondary">Back to Task List</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Tag list
+    <a href="{% url 'todo:add_tag' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  
+  {% if tag_list %}
+    <ul class="list-group">
+      {% for tag in tag_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <a href="{% url 'todo:tag_detail' pk=tag.id %}">{{ tag.name }}</a>
+          </div>
+          <div class="d-flex">
+            <a href="{% url 'todo:update_tag' pk=tag.id %}" class="btn btn-warning btn-sm me-2">Update</a>
+            <form action="{% url 'todo:delete_tag' pk=tag.id %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no tags available.</p>
+  {% endif %}
+{% endblock %}
+
+
