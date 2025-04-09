@@ -1,5 +1,6 @@
 from django import forms
-from .models import Tag, Task
+from .models import Task, Tag
+from django.forms import DateInput
 
 
 class TagForm(forms.ModelForm):
@@ -14,3 +15,10 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['content', 'deadline', 'is_done', 'tags']
+        widgets = {
+            'deadline': DateInput(attrs={'type': 'date', 'placeholder': 'DD/MM/YYYY'}, format='%d/%m/%Y'),
+        }
+
+    def clean_deadline(self):
+        deadline = self.cleaned_data.get('deadline')
+        return deadline

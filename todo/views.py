@@ -43,20 +43,26 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'todo/add-task.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('todo:task_list')
 
 
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'todo/update-task.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('todo:task_list')
 
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     template_name = 'todo/task_confirm_delete.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('todo:task_list')
+
+
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+    context_object_name = 'task'
+    template_name = 'todo/task-detail.html'
 
 
 class TagListView(LoginRequiredMixin, generic.ListView):
@@ -77,6 +83,11 @@ class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = 'todo/tag_confirm_delete.html'
     success_url = reverse_lazy('tag_list')
 
+class TagDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Tag
+    context_object_name = 'tag'
+    template_name = 'todo/tag-detail.html'
+
 
 @login_required
 def toggle_task_status(request, task_id):
@@ -84,3 +95,17 @@ def toggle_task_status(request, task_id):
     task.is_done = not task.is_done
     task.save()
     return redirect('index')
+
+
+@login_required
+def add_task_user(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.users.add(request.user)
+    return redirect('todo:task_detail', pk=pk)
+
+
+@login_required
+def remove_task_user(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.users.remove(request.user)
+    return redirect('todo:task_detail', pk=pk)

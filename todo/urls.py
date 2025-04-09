@@ -9,8 +9,10 @@ urlpatterns = [
     path('tasks/add/', views.TaskCreateView.as_view(), name='add_task'),
     path('tasks/<int:pk>/update/', views.TaskUpdateView.as_view(), name='update_task'),
     path('tasks/<int:pk>/delete/', views.TaskDeleteView.as_view(), name='delete_task'),
+    path('tasks/<int:pk>/', views.TaskDetailView.as_view(), name='task_detail'),
     path('tasks/<int:task_id>/toggle/', views.toggle_task_status, name='toggle_task_status'),
     path('tags/', views.TagListView.as_view(), name='tag_list'),
     path('tags/add/', views.TagCreateView.as_view(), name='add_tag'),
+    path('tags/<int:pk>/', views.TagDetailView.as_view(), name='tag_detail'),
     path('tags/<int:pk>/delete/', views.TagDeleteView.as_view(), name='delete_tag'),
 ]
