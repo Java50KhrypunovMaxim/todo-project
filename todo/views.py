@@ -87,6 +87,11 @@ class TagDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'tag'
     template_name = 'todo/tag-detail.html'
 
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'todo/tag_form.html'
+    success_url = reverse_lazy('todo:tag_list')
 
 @login_required
 def toggle_task_status(request, task_id):
