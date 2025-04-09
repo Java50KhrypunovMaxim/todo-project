@@ -1,0 +1,43 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+env/
+env.bak/
+venv.bak/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+db.sqlite3
+*.sqlite3
+
+# Static files (if you want to ignore the generated files)
+staticfiles/
+static/
+
+# Media files
+media/
+
+# Django migrations
+*/migrations/*
+
+# IDE/editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Python environment files
+Pipfile
+Pipfile.lock
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl

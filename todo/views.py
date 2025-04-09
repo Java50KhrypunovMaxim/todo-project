@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import TaskForm, TagForm
 from .models import Task, Tag
+
 
 @login_required
 def index(request):
@@ -35,7 +35,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Task.objects.all().order_by('is_done', '-created_at')
+        pending_tasks = Task.objects.filter(is_done=False).order_by('deadline', '-created_at')
+        completed_tasks = Task.objects.filter(is_done=True).order_by('deadline', '-created_at')
+        return pending_tasks | completed_tasks
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
