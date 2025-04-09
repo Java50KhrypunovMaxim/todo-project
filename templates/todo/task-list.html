@@ -7,31 +7,51 @@
       Create
     </a>
   </h1>
+
   {% if task_list %}
-    <ul>
-      {% for task in task_list %}
-        <li>
-          <a href="{% url 'todo:task_detail' pk=task.id %}">{{ task.content }}</a>
-          {% if task.deadline %}
-            (Deadline: {{ task.deadline|date:"d/m/Y" }})
-          {% else %}
-            (No deadline set)
+    <ul class="list-group">
+      {% with pending_shown=False completed_shown=False %}
+        {% for task in task_list %}
+          {% if not task.is_done and not pending_shown %}
+            <h3>Pending tasks:</h3>
+            {% with pending_shown=True %}
+            {% endwith %}
           {% endif %}
-          {% if task.is_done %}
-            - Done
-          {% else %}
-            - Pending
+          {% if task.is_done and not completed_shown %}
+            <h3>Completed tasks:</h3>
+            {% with completed_shown=True %}
+            {% endwith %}
           {% endif %}
-          <br>
-          <strong>Tags:</strong> 
-          {% for tag in task.tags.all %}
-            {{ tag.name }}{% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </li>
-      {% endfor %}
+
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <a href="{% url 'todo:task_detail' pk=task.id %}">{{ task.content }}</a>
+              {% if task.deadline %}
+                (Deadline: {{ task.deadline|date:"d/m/Y" }})
+              {% else %}
+                (No deadline set)
+              {% endif %}
+              <br>
+              <strong>Tags:</strong> 
+              {% for tag in task.tags.all %}
+                {{ tag.name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </div>
+            <div>
+              {% if not task.is_done %}
+                <form action="{% url 'todo:toggle_task_status' task_id=task.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
+                </form>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      {% endwith %}
     </ul>
   {% else %}
     <p>There are no tasks available.</p>
   {% endif %}
 {% endblock %}
+
 

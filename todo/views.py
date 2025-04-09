@@ -113,3 +113,11 @@ def remove_task_user(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.users.remove(request.user)
     return redirect('todo:task_detail', pk=pk)
+
+
+@login_required
+def toggle_task_status(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.is_done = True
+    task.save()
+    return redirect('todo:task_list')
