@@ -25,6 +25,8 @@ urlpatterns = [
          name='add_task_user'),
     path('tasks/<int:pk>/remove_user/', views.remove_task_user,
          name='remove_task_user'),
+    path('tasks/<int:pk>/toggle/', views.toggle_task_status,
+         name='toggle_task_status'),
 
     path('tags/', views.TagListView.as_view(),
          name='tag_list'),

@@ -120,3 +120,11 @@ def remove_task_user(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.users.remove(request.user)
     return redirect('todo:task_detail', pk=pk)
+
+
+@login_required
+def toggle_task_status(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.is_done = not task.is_done  # Toggle the task status
+    task.save()  # Save the updated task
+    return redirect('todo:task_detail', pk=task.pk)

@@ -17,6 +17,7 @@
             {% with pending_shown=True %}
             {% endwith %}
           {% endif %}
+          
           {% if task.is_done and not completed_shown %}
             <h3>Completed tasks:</h3>
             {% with completed_shown=True %}
@@ -39,9 +40,14 @@
             </div>
             <div>
               {% if not task.is_done %}
-                <form action="{% url 'todo:toggle_task_status' task_id=task.id %}" method="post">
+                <form action="{% url 'todo:toggle_task_status' pk=task.id %}" method="post" style="display: inline;">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
+                </form>
+              {% else %}
+                <form action="{% url 'todo:toggle_task_status' pk=task.id %}" method="post" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-warning btn-sm">Undo</button>
                 </form>
               {% endif %}
             </div>
@@ -53,5 +59,4 @@
     <p>There are no tasks available.</p>
   {% endif %}
 {% endblock %}
-
 
