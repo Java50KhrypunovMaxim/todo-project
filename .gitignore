@@ -41,4 +41,8 @@ Pipfile.lock
 dist/
 build/
 *.whl
+
+
+manage.py
+.idea
 .env
