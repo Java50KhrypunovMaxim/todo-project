@@ -35,8 +35,10 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        pending_tasks = Task.objects.filter(is_done=False).order_by('deadline', '-created_at')
-        completed_tasks = Task.objects.filter(is_done=True).order_by('deadline', '-created_at')
+        pending_tasks = Task.objects.filter(
+            is_done=False).order_by('deadline', '-created_at')
+        completed_tasks = Task.objects.filter(
+            is_done=True).order_by('deadline', '-created_at')
         return pending_tasks | completed_tasks
 
 
@@ -84,16 +86,19 @@ class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = 'todo/tag_confirm_delete.html'
     success_url = reverse_lazy('todo:tag_list')
 
+
 class TagDetailView(LoginRequiredMixin, generic.DetailView):
     model = Tag
     context_object_name = 'tag'
     template_name = 'todo/tag-detail.html'
+
 
 class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Tag
     fields = ['name']
     template_name = 'todo/tag_form.html'
     success_url = reverse_lazy('todo:tag_list')
+
 
 @login_required
 def toggle_task_status(request, task_id):
@@ -115,11 +120,3 @@ def remove_task_user(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.users.remove(request.user)
     return redirect('todo:task_detail', pk=pk)
-
-
-@login_required
-def toggle_task_status(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
-    task.is_done = True
-    task.save()
-    return redirect('todo:task_list')
